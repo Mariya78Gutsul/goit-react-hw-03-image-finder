@@ -1,25 +1,19 @@
-import React from "react";
-import T from "prop-types";
-import styles from "./ImageGalleryItem.module.css";
+import React from 'react';
+import T from 'prop-types';
+import styles from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ image, openModal }) => {
-  const { webformatURL, tags } = image;
-
+const ImageGalleryItem = ({ image, openModal, tags }) => {
   return (
-    <li id={image.id} onClick={openModal} className={styles.ImageGalleryItem}>
-      <img
-        src={webformatURL}
-        alt={tags}
-        className={styles.ImageGalleryItemImage}
-      />
+    <li onClick={openModal} className={styles.ImageGalleryItem}>
+      <img src={image} alt={tags} className={styles.ImageGalleryItemImage} />
     </li>
   );
 };
 
 ImageGalleryItem.propTypes = {
-  image: T.shape({
-    webformatURL: T.string,
-  }),
+  image: T.string,
+  openModal: T.func,
+  tags: T.string,
 };
 
 export default ImageGalleryItem;

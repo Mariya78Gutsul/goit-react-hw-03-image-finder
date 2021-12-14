@@ -1,9 +1,9 @@
-import React, { Component, createRef } from "react";
-import { createPortal } from "react-dom";
-import PropTypes from "prop-types";
-import styles from "./Modal.module.css";
+import React, { Component } from 'react';
+import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
+import styles from './Modal.module.css';
 
-const MODAL_ROOT = document.querySelector("#modal-root");
+const MODAL_ROOT = document.querySelector('#modal-root');
 
 export default class Modal extends Component {
   static propTypes = {
@@ -11,32 +11,26 @@ export default class Modal extends Component {
     children: PropTypes.node.isRequired,
   };
 
-  backdropRef = createRef();
-
   componentDidMount() {
-    window.addEventListener("keydown", this.handleKeyPress);
+    window.addEventListener('keydown', this.handleKeyPress);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("keydown", this.handleKeyPress);
+    window.removeEventListener('keydown', this.handleKeyPress);
   }
 
-  handleKeyPress = (e) => {
-    console.log(e);
-
-    if (e.code !== "Escape") {
+  handleKeyPress = e => {
+    if (e.code !== 'Escape') {
       return;
     }
 
     this.props.onClose();
   };
 
-  handleBackdropClick = (e) => {
-    if (this.backdropRef.current && e.target !== this.backdropRef.current) {
-      return;
+  handleBackdropClick = e => {
+    if (e.target === e.currentTarget) {
+      this.props.onClose();
     }
-
-    this.props.onClose();
   };
 
   render() {
@@ -44,13 +38,12 @@ export default class Modal extends Component {
     return createPortal(
       <div
         className={styles.Overlay}
-        ref={this.backdropRef}
-        onClick={this.props.onClose}
+        onClick={this.handleBackdropClick}
         role="presentation"
       >
         <div className={styles.Modal}>{children}</div>
       </div>,
-      MODAL_ROOT
+      MODAL_ROOT,
     );
   }
 }

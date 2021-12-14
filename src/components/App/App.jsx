@@ -20,7 +20,7 @@ export default class App extends Component {
     isLoading: false,
     isModalOpen: false,
     largeImageId: null,
-    largeImage: [],
+    largeImage: '',
   };
 
   componentDidMount() {}
@@ -79,16 +79,18 @@ export default class App extends Component {
     return largeImg;
   };
 
-  openModal = e => {
+  openModal = largeImageURL => {
     this.setState({
       isModalOpen: true,
-      largeImageId: Number(e.currentTarget.id),
+      largeImage: largeImageURL,
+      // largeImageId: Number(e.currentTarget.id),
     });
   };
   closeModal = () => this.setState({ isModalOpen: false });
 
   render() {
-    const { isLoading, images, isModalOpen, largeImageId } = this.state;
+    const { isLoading, images, isModalOpen, largeImageId, largeImage } =
+      this.state;
 
     return (
       <div className={styles.App}>
@@ -100,7 +102,7 @@ export default class App extends Component {
         )}
         {isModalOpen && (
           <Modal largeImageId={largeImageId} onClose={this.closeModal}>
-            <img src={this.findPic().largeImageURL} alt={this.findPic().tags} />
+            <img src={largeImage} alt="" />
           </Modal>
         )}
       </div>
